@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\Order; // <-- Tambahkan ini
-use App\Policies\OrderPolicy; // <-- Tambahkan ini
+use App\Models\Policy; // <-- Tambahkan ini
+use App\Policies\PesananPolicy; // <-- Tambahkan ini
 use Illuminate\Support\Facades\Gate; // <-- Import Gate
 
 
@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      * Register any application services.
      */
     protected $policies = [
-        Order::class => OrderPolicy::class, // <-- Tambahkan baris ini
+        Pesanan::class => PesananPolicy::class, // <-- Tambahkan baris ini
     ];
     public function register(): void
     {
@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        Gate::policy(Order::class, OrderPolicy::class);
+        Gate::policy(Pesanan::class, PesananPolicy::class);
 
     }
 }

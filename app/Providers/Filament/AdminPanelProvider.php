@@ -5,7 +5,7 @@ namespace App\Providers\Filament;
 // IMPORT SEMUA RESOURCE ANDA
 use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\CategoryResource;
-use App\Filament\Resources\OrderResource;
+use App\Filament\Resources\PesananResource;
 use App\Filament\Resources\ProductResource;
 
 use Filament\Http\Middleware\Authenticate;
@@ -43,6 +43,7 @@ class AdminPanelProvider extends PanelProvider
                 BannerResource::class,
                 CategoryResource::class,
                 ProductResource::class,
+                PesananResource::class,
             ])
             ->middleware([
                 EncryptCookies::class,

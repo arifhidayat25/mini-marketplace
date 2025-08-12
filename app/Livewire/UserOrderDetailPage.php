@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
+use App\Models\Pesanan; // Pastikan ini mengarah ke model yang benar
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -11,9 +11,9 @@ use Livewire\Attributes\Title;
 #[Title('Detail Pesanan')]
 class UserOrderDetailPage extends Component
 {
-    public Order $order;
+    public Pesanan $order;
 
-    public function mount(Order $order)
+    public function mount(Pesanan $order)
     {
         // Otorisasi! Periksa apakah pengguna yang login boleh melihat pesanan ini.
         // Jika tidak, Laravel akan otomatis menampilkan halaman 403 Forbidden.

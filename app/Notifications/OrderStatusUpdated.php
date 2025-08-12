@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Order; // <-- 1. Import model Order
+use App\Models\Pesanan; // <-- 1. Import model Order
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -17,7 +17,7 @@ class OrderStatusUpdated extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(Order $order)
+    public function __construct(Pesanan $order)
     {
         // Saat notifikasi dibuat, kita terima data pesanan
         $this->order = $order;

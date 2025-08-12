@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
+use App\Models\Pesanan;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -90,7 +90,7 @@ class CheckoutPage extends Component
 
     DB::transaction(function () {
         // 1. Buat record di tabel 'orders'
-        $order = Order::create([
+        $order = Pesanan::create([
             'user_id' => auth()->id(),
             'name' => $this->name,
             'email' => $this->email,

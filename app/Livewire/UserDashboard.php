@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
+use App\Models\Pesanan; // <-- Pastikan ini mengarah ke model yang benar
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -22,7 +22,7 @@ class UserDashboard extends Component
         $userId = Auth::id();
 
         // Ambil semua pesanan milik pengguna tersebut, urutkan dari yang terbaru
-        $this->orders = Order::where('user_id', $userId)->latest()->get();
+        $this->orders = Pesanan::where('user_id', $userId)->latest()->get();
 
         // Hitung statistik ringkasan
         $this->orderCount = $this->orders->count();
