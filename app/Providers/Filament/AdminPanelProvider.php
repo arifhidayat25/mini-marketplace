@@ -2,10 +2,18 @@
 
 namespace App\Providers\Filament;
 
+<<<<<<< HEAD
+// 1. IMPORT SEMUA RESOURCE ANDA DI SINI
+use App\Filament\Resources\BannerResource;
+use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\OrderResource;
+use App\Filament\Resources\PesananResource;
+=======
 // IMPORT SEMUA RESOURCE ANDA
 use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\OrderResource;
+>>>>>>> 590bdcf86ab244b0468749af3c1829fa16156fbc
 use App\Filament\Resources\ProductResource;
 
 use Filament\Http\Middleware\Authenticate;
@@ -32,17 +40,36 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+<<<<<<< HEAD
+            ->colors([
+                'primary' => Color::Amber,
+            ])
+            // discoverResources(...) akan kita ganti dengan pendaftaran manual
+            ->pages([
+                Pages\Dashboard::class,
+            ])
+=======
             ->colors(['primary' => Color::Amber])
             ->pages([Pages\Dashboard::class])
+>>>>>>> 590bdcf86ab244b0468749af3c1829fa16156fbc
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+<<<<<<< HEAD
+            // 2. TAMBAHKAN BLOK BARU DI BAWAH INI
+            ->resources([
+                BannerResource::class,
+                CategoryResource::class,
+                ProductResource::class,
+                PesananResource::class,
+=======
             // DAFTARKAN RESOURCE SECARA MANUAL DI SINI
             ->resources([
                 BannerResource::class,
                 CategoryResource::class,
                 ProductResource::class,
+>>>>>>> 590bdcf86ab244b0468749af3c1829fa16156fbc
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -54,6 +81,14 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+<<<<<<< HEAD
+            ->authMiddleware([
+                Authenticate::class,
+            ]);
+    }
+}
+=======
             ->authMiddleware([Authenticate::class]);
     }
 }
+>>>>>>> 590bdcf86ab244b0468749af3c1829fa16156fbc
