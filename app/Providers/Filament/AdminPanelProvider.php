@@ -42,7 +42,6 @@ class AdminPanelProvider extends PanelProvider
             ->resources([
                 BannerResource::class,
                 CategoryResource::class,
-                OrderResource::class,
                 ProductResource::class,
             ])
             ->middleware([
