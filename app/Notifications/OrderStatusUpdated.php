@@ -45,7 +45,7 @@ class OrderStatusUpdated extends Notification
         return [
             'order_id' => $this->order->id,
             'title' => 'Status Pesanan Diperbarui!',
-            'message' => "Kabar baik! Status pesanan Anda #${this->order->id} telah diubah menjadi '{$this->order->status}'.",
+            'message' => "Kabar baik! Status pesanan Anda telah diubah menjadi '{$this->order->status}'.",
             'link' => route('akun.order.detail', $this->order->id),
         ];
     }

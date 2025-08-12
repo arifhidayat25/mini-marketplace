@@ -2,11 +2,10 @@
 
 namespace App\Providers\Filament;
 
-// 1. IMPORT SEMUA RESOURCE ANDA DI SINI
+// IMPORT SEMUA RESOURCE ANDA
 use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\OrderResource;
-use App\Filament\Resources\PesananResource;
 use App\Filament\Resources\ProductResource;
 
 use Filament\Http\Middleware\Authenticate;
@@ -33,23 +32,18 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->colors([
-                'primary' => Color::Amber,
-            ])
-            // discoverResources(...) akan kita ganti dengan pendaftaran manual
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            ->colors(['primary' => Color::Amber])
+            ->pages([Pages\Dashboard::class])
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
-            // 2. TAMBAHKAN BLOK BARU DI BAWAH INI
+            // DAFTARKAN RESOURCE SECARA MANUAL DI SINI
             ->resources([
                 BannerResource::class,
                 CategoryResource::class,
+                OrderResource::class,
                 ProductResource::class,
-                PesananResource::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -61,8 +55,6 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ->authMiddleware([Authenticate::class]);
     }
 }
