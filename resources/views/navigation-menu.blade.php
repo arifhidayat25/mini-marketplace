@@ -12,20 +12,40 @@
                     <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
-                    {{-- Tambahkan link lain di sini jika perlu --}}
+                    {{-- Anda bisa menambahkan link Kategori di sini jika perlu --}}
+                </div>
+            </div>
+
+            <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+                <div class="w-full max-w-xl">
+                    <form action="{{ route('home') }}" method="GET" class="w-full">
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            <input 
+                                type="search" 
+                                name="q" 
+                                placeholder="Cari di sini..." 
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                value="{{ request()->get('q') }}"
+                            >
+                        </div>
+                    </form>
                 </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-            @auth
-            <div class="ms-3 relative">
-                <livewire:cart-counter />
-            </div>
+                @auth
+                    <div class="ms-3 relative">
+                        <livewire:cart-counter />
+                    </div>
 
-            <div class="ms-3 relative">
-                <livewire:notification-indicator />
-            </div>
-
+                    <div class="ms-3 relative">
+                        <livewire:notification-indicator />
+                    </div>
                 
                     @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                         <div class="ms-3 relative">
@@ -99,9 +119,6 @@
                                 <x-dropdown-link href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
-                                
-                                 
-
                                 <x-dropdown-link href="{{ route('akun.alamat') }}">
                                      {{ __('Kelola Alamat') }}
                                 </x-dropdown-link>
@@ -127,6 +144,9 @@
             </div>
 
             <div class="-me-2 flex items-center sm:hidden">
+                 <div class="ms-3 relative">
+                    <livewire:cart-counter />
+                </div>
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -162,6 +182,15 @@
                     <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
+                    
+                     <x-responsive-nav-link href="{{ route('akun.alamat') }}" :active="request()->routeIs('akun.alamat')">
+                        {{ __('Kelola Alamat') }}
+                    </x-responsive-nav-link>
+                    
+                    <x-responsive-nav-link href="{{ route('akun.dashboard') }}" :active="request()->routeIs('akun.dashboard')">
+                        {{ __('Dashboard Saya') }}
+                    </x-responsive-nav-link>
+
 
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
@@ -169,6 +198,36 @@
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
+
+                    @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+                        <div class="border-t border-gray-200"></div>
+
+                        <div class="block px-4 py-2 text-xs text-gray-400">
+                            {{ __('Manage Team') }}
+                        </div>
+
+                        <x-responsive-nav-link href="{{ route('teams.show', optional(Auth::user()->currentTeam)->id) }}" :active="request()->routeIs('teams.show')">
+                            {{ __('Team Settings') }}
+                        </x-responsive-nav-link>
+
+                        @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
+                            <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
+                                {{ __('Create New Team') }}
+                            </x-responsive-nav-link>
+                        @endcan
+
+                        @if (optional(Auth::user())->allTeams()->count() > 1)
+                            <div class="border-t border-gray-200"></div>
+
+                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Switch Teams') }}
+                            </div>
+
+                            @foreach (Auth::user()->allTeams() as $team)
+                                <x-switchable-team :team="$team" component="responsive-nav-link" />
+                            @endforeach
+                        @endif
+                    @endif
                 </div>
             </div>
         @endauth
