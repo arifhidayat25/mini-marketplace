@@ -14,4 +14,8 @@ public function product()
 {
     return $this->belongsTo(Product::class);
 }
+public function pesanan()
+{
+    return $this->belongsTo(Pesanan::class, 'order_id');
+}
 }

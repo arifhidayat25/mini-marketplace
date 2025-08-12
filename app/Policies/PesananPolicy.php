@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Order;
+use App\Models\Pesanan;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class OrderPolicy
+class PesananPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -21,7 +21,7 @@ class OrderPolicy
      */
 
     
-    public function view(User $user, Order $order): bool
+    public function view(User $user, Pesanan $order): bool
     {
         return $user->id === $order->user_id;
     }
@@ -37,7 +37,7 @@ class OrderPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Order $order): bool
+    public function update(User $user, Pesanan $order): bool
     {
         return false;
     }
@@ -45,7 +45,7 @@ class OrderPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Order $order): bool
+    public function delete(User $user, Pesanan $order): bool
     {
         return false;
     }
@@ -53,7 +53,7 @@ class OrderPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Order $order): bool
+    public function restore(User $user, Pesanan $order): bool
     {
         return false;
     }
@@ -61,7 +61,7 @@ class OrderPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Order $order): bool
+    public function forceDelete(User $user, Pesanan $order): bool
     {
         return false;
     }
