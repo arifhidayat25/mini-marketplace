@@ -6,24 +6,58 @@
             <livewire:hero-banner />
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Kategori Pilihan</h2>
-            
-            <div class="flex flex-wrap gap-2 border-b pb-6 mb-6">
-                <button wire:click.prevent="$set('selectedCategory', null)" class="{{ is_null($selectedCategory) ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700' }} px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500 hover:text-white transition">
-                    Semua Kategori
-                </button>
-                @foreach($categories as $category)
-                    <button wire:click.prevent="$set('selectedCategory', {{ $category->id }})" class="{{ $selectedCategory == $category->id ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700' }} px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-500 hover:text-white transition">
-                        {{ $category->name }}
-                    </button>
-                @endforeach
+        @if($promoProducts->isNotEmpty())
+        <div class="mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">Member baru? Ini promo!</h2>
+                <a href="#" class="text-sm font-semibold text-indigo-600 hover:underline">Lihat Semua</a>
             </div>
 
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                
+            <div x-data="{
+                init() {
+                    setTimeout(() => {
+                        new Swiper(this.$refs.promoSwiper, {
+                            slidesPerView: 2.2,
+                            spaceBetween: 16,
+                            navigation: {
+                                nextEl: '.swiper-button-next-promo',
+                                prevEl: '.swiper-button-prev-promo',
+                            },
+                            breakpoints: {
+                                640: { slidesPerView: 3 },
+                                768: { slidesPerView: 4 },
+                                1024: { slidesPerView: 5 },
+                                1280: { slidesPerView: 6 },
+                            }
+                        });
+                    }, 50);
+                }
+            }" x-init="init()" class="relative">
+                <div x-ref="promoSwiper" class="swiper overflow-hidden">
+                    <div class="swiper-wrapper">
+    @foreach($promoProducts as $product)
+    <div class="swiper-slide h-auto">
+<a href="{{ route('product.detail', $product) }}" class="flex flex-col border rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 h-full">            @if(Str::startsWith($product->image_url, 'http'))
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-40 object-cover">
+            @else
+                <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-40 object-cover">
+            @endif
+            <div class="p-3 flex flex-col flex-grow">
+                <p class="text-sm text-gray-800 truncate flex-grow" title="{{ $product->name }}">{{ $product->name }}</p>
+                <p class="text-base font-bold text-gray-900 mt-1">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+            </div>
+                    </a>
+            </div>
+            @endforeach
+            </div>
                 </div>
+
+                <div class="swiper-button-prev swiper-button-prev-promo text-indigo-600 -left-2 md:-left-4 hidden md:flex after:text-2xl"></div>
+                <div class="swiper-button-next swiper-button-next-promo text-indigo-600 -right-2 md:-right-4 hidden md:flex after:text-2xl"></div>
+            </div>
         </div>
+        @endif
+        
         <h1 class="text-3xl font-bold mb-6">Produk</h1>
         
         
@@ -46,31 +80,29 @@
 
             <div wire:loading.remove class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse ($products as $product)
-                    <div class="bg-white border rounded-lg shadow-sm overflow-hidden transition hover:shadow-lg">
+                    {{-- 1. Kartu produk sekarang dibungkus dengan tag <a> --}}
+                    <a href="{{ route('product.detail', $product) }}" wire:navigate class="block bg-white border rounded-lg shadow-sm overflow-hidden transition hover:shadow-lg">
                         @if(Str::startsWith($product->image_url, 'http'))
                             <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
                         @else
                             <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
                         @endif
                         <div class="p-4">
-                            <h2 class="text-lg font-semibold text-gray-800 truncate">{{ $product->name }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-800 truncate" title="{{ $product->name }}">{{ $product->name }}</h2>
                             <p class="text-sm text-gray-600 mt-1">{{ $product->category->name }}</p>
-                            <p class="text-sm font-medium @if($product->stock < 10) text-red-500 @else text-green-600 @endif">
+                            <p class="text-sm font-medium mt-2 @if($product->stock < 10) text-red-500 @else text-green-600 @endif">
                                 Stok: {{ $product->stock }}
                             </p>
-                            <div class="mt-4 flex justify-between items-center">
+                            <div class="mt-4">
                                 <span class="text-xl font-bold text-gray-900">Rp{{ number_format($product->price, 0, ',', '.') }}</span>
-                                <a href="{{ route('product.detail', $product) }}" wire:navigate class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">
-                                    Detail
-                                </a>
                             </div>
+                            {{-- 2. Tombol "Detail" sudah dihapus karena tidak perlu lagi --}}
                         </div>
-                    </div>
+                    </a>
                 @empty
                     <p class="col-span-full text-center text-gray-500 py-12">Tidak ada produk yang cocok dengan pencarian Anda.</p>
                 @endforelse
             </div>
-        </div>
 
         <div class="mt-8">
             {{ $products->links() }}

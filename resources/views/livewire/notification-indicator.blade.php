@@ -26,13 +26,12 @@
             </div>
             <div class="py-1">
                 @forelse($notifications as $notification)
-                    <a href="{{ $notification->data['link'] ?? '#' }}" 
-                       wire:click.prevent="markAsRead('{{ $notification->id }}')" 
-                       class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 {{ is_null($notification->read_at) ? 'bg-blue-50' : '' }}">
-                        <p class="font-bold">{{ $notification->data['title'] }}</p>
-                        <p>{{ $notification->data['message'] }}</p>
+                    <button wire:click="markAsRead('{{ $notification->id }}')" 
+                       class="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 {{ is_null($notification->read_at) ? 'bg-blue-50' : '' }}">
+                        <p class="font-bold">{{ $notification->data['title'] ?? 'Notifikasi' }}</p>
+                        <p>{{ $notification->data['message'] ?? 'Anda memiliki notifikasi baru.' }}</p>
                         <p class="text-xs text-gray-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
-                    </a>
+                    </button>
                 @empty
                     <p class="text-center text-gray-500 py-4">Tidak ada notifikasi.</p>
                 @endforelse

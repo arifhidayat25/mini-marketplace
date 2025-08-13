@@ -9,33 +9,40 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
-                    </x-nav-link>
-                    {{-- Anda bisa menambahkan link Kategori di sini jika perlu --}}
+    <div class="flex items-center">
+        <x-dropdown align="left" width="60">
+            <x-slot name="trigger">
+                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                    Kategori
+                    <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </button>
+            </x-slot>
+
+            <x-slot name="content">
+                <div class="w-60">
+                    <x-dropdown-link href="{{ route('home', ['kategori' => '']) }}">
+                        Semua Kategori
+                    </x-dropdown-link>
+                    
+                    <div class="border-t border-gray-200"></div>
+
+                    @foreach ($categories as $category)
+<x-dropdown-link href="{{ route('category.show', $category) }}">
+                            {{ $category->name }}
+                        </x-dropdown-link>
+                    @endforeach
                 </div>
+            </x-slot>
+        </x-dropdown>
+    </div>
+</div>
             </div>
 
             <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-                <div class="w-full max-w-xl">
-                    <form action="{{ route('home') }}" method="GET" class="w-full">
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                </svg>
-                            </span>
-                            <input 
-                                type="search" 
-                                name="q" 
-                                placeholder="Cari di sini..." 
-                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                value="{{ request()->get('q') }}"
-                            >
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <livewire:search-bar />
+</div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @auth

@@ -27,15 +27,24 @@ class NotificationIndicator extends Component
         }
     }
 
-    // Menandai notifikasi sebagai sudah dibaca
+    /**
+     * Menandai notifikasi sebagai sudah dibaca DAN mengarahkan ke link-nya.
+     */
     public function markAsRead($notificationId)
     {
         if (Auth::check()) {
             $notification = Auth::user()->notifications()->find($notificationId);
             if ($notification) {
+                // Tandai sudah dibaca
                 $notification->markAsRead();
+
+                // Jika notifikasi punya link, redirect ke sana
+                if (isset($notification->data['link'])) {
+                    // Redirect menggunakan fitur navigasi SPA dari Livewire
+                    return $this->redirect($notification->data['link'], navigate: true);
+                }
             }
-            // Muat ulang data notifikasi setelah ditandai
+            // Jika tidak ada link, cukup muat ulang notifikasi
             $this->loadNotifications();
         }
     }

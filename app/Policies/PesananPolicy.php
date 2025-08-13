@@ -13,7 +13,7 @@ class PesananPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true; // Allow all users to view any orders
     }
 
     /**
@@ -39,7 +39,7 @@ class PesananPolicy
      */
     public function update(User $user, Pesanan $order): bool
     {
-        return false;
+        return true;
     }
 
     /**

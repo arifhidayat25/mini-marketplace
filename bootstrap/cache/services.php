@@ -47,9 +47,11 @@
     43 => 'Termwind\\Laravel\\TermwindServiceProvider',
     44 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
     45 => 'App\\Providers\\AppServiceProvider',
-    46 => 'App\\Providers\\Filament\\AdminPanelProvider',
-    47 => 'App\\Providers\\FortifyServiceProvider',
-    48 => 'App\\Providers\\JetstreamServiceProvider',
+    46 => 'App\\Providers\\CategoryServiceProvider',
+    47 => 'App\\Providers\\Filament\\AdminPanelProvider',
+    48 => 'App\\Providers\\FortifyServiceProvider',
+    49 => 'App\\Providers\\JetstreamServiceProvider',
+    50 => 'App\\Providers\\CategoryServiceProvider',
   ),
   'eager' => 
   array (
@@ -84,9 +86,11 @@
     28 => 'Termwind\\Laravel\\TermwindServiceProvider',
     29 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
     30 => 'App\\Providers\\AppServiceProvider',
-    31 => 'App\\Providers\\Filament\\AdminPanelProvider',
-    32 => 'App\\Providers\\FortifyServiceProvider',
-    33 => 'App\\Providers\\JetstreamServiceProvider',
+    31 => 'App\\Providers\\CategoryServiceProvider',
+    32 => 'App\\Providers\\Filament\\AdminPanelProvider',
+    33 => 'App\\Providers\\FortifyServiceProvider',
+    34 => 'App\\Providers\\JetstreamServiceProvider',
+    35 => 'App\\Providers\\CategoryServiceProvider',
   ),
   'deferred' => 
   array (

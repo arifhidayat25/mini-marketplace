@@ -8,16 +8,15 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
-use Livewire\WithPagination; // <-- 1. Import WithPagination
-
+use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
 #[Title('Selamat Datang')]
 class ShowProducts extends Component
 {
-    use WithPagination; // <-- 2. Gunakan Trait WithPagination
+    use WithPagination;
 
-    #[Url(as: 'q', except: '')]
+    // Hapus #[Url] dari $search agar tidak lagi terikat ke URL di halaman ini
     public $search = '';
 
     #[Url(as: 'kategori')]
@@ -27,20 +26,23 @@ class ShowProducts extends Component
     public $sort = 'latest';
 
     public $categories;
+    public $promoProducts;
 
     public function mount()
     {
         $this->categories = Category::all();
+        $this->promoProducts = Product::query()
+                                    ->inRandomOrder()
+                                    ->take(10)
+                                    ->get();
     }
 
     public function render()
     {
         $productsQuery = Product::query();
 
-        $productsQuery->when($this->search, function ($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%')
-                         ->orWhere('description', 'like', '%' . $search . '%');
-        });
+        // LOGIKA PENCARIAN DI BAWAH INI SUDAH DIHAPUS
+        // $productsQuery->when($this->search, ...);
 
         $productsQuery->when($this->selectedCategory, function ($query, $categoryId) {
             return $query->where('category_id', $categoryId);
@@ -54,7 +56,7 @@ class ShowProducts extends Component
             $productsQuery->orderBy('created_at', 'desc');
         }
 
-        $products = $productsQuery->paginate(12); // Tampilkan 12 produk per halaman
+        $products = $productsQuery->paginate(12);
 
         return view('livewire.show-products', [
             'products' => $products,
