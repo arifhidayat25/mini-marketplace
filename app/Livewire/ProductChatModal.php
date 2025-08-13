@@ -30,6 +30,46 @@ class ProductChatModal extends Component
         $this->loadConversation();
     }
 
+    public function addToCart()
+    {
+        if (!$this->product) {
+            return;
+        }
+
+        if ($this->product->stock <= 0) {
+            session()->flash('error', 'Maaf, stok produk ini telah habis.');
+            return;
+        }
+
+        $cart = session()->get('cart', []);
+        $quantityToAdd = 1; // Selalu tambah 1 dari chat
+
+        if(isset($cart[$this->product->id])) {
+            if ($this->product->stock >= ($cart[$this->product->id]['quantity'] + $quantityToAdd)) {
+                $cart[$this->product->id]['quantity'] += $quantityToAdd;
+            } else {
+                session()->flash('error', 'Maaf, jumlah item di keranjang melebihi stok yang tersedia.');
+                return;
+            }
+        } else {
+            $cart[$this->product->id] = [
+                "name" => $this->product->name,
+                "quantity" => $quantityToAdd,
+                "price" => $this->product->price,
+                "image_url" => $this->product->image_url
+            ];
+        }
+
+        session()->put('cart', $cart);
+        $this->dispatch('cart-updated'); // Update ikon keranjang
+        
+        // Beri notifikasi di halaman berikutnya
+        session()->flash('success', 'Produk berhasil ditambahkan ke keranjang!');
+
+        // Tutup modal setelah berhasil ditambahkan
+        $this->closeModal();
+    }
+
     public function loadConversation()
     {
         $this->conversation = Conversation::firstOrCreate([

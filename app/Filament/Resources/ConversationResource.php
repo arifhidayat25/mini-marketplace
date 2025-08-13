@@ -57,8 +57,10 @@ class ConversationResource extends Resource
             ])
             ->defaultSort('updated_at', 'desc')
             ->actions([
-                // ACTIONS HANYA BERISI TOMBOL AKSI
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\Action::make('chat')
+                    ->label('Lihat Chat')
+                    ->url(fn (Conversation $record): string => static::getUrl('chat', ['record' => $record]))
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text'),
             ])
             ->bulkActions([]);
     }
@@ -89,7 +91,8 @@ class ConversationResource extends Resource
     {
         return [
             'index' => Pages\ListConversations::route('/'),
-            'view' => Pages\ViewConversation::route('/{record}'),
+            'chat' => Pages\Chat::route('/{record}/chat'),
+
         ];
     }
 }
