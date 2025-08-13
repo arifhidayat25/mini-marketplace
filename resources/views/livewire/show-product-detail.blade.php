@@ -23,6 +23,7 @@
                 </h1>
 
                 <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                
                     <span>Terjual 500+</span>
                     <span class="text-gray-300">|</span>
                     <div class="flex items-center">
@@ -56,6 +57,10 @@
                                 <button wire:click="increaseQuantity" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-r-lg">+</button>
                             </div>
 
+                            <button wire:click="$dispatch('open-chat-modal', { productId: {{ $product->id }} })" class="...">
+    Chat Seller
+</button>
+
                             <button wire:click="addToCart({{ $product->id }})" class="flex-1 w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition duration-300">
                                 + Tambah ke Keranjang
                             </button>
@@ -70,7 +75,10 @@
                     @endif
                 </div>
             </div>
+                <livewire:product-chat-modal />
+
         </div>
+        
 
         <div class="mt-16 border-t pt-10">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Produk Serupa</h2>

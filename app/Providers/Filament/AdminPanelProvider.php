@@ -7,7 +7,9 @@ use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\CategoryResource;
 use App\Filament\Resources\PesananResource;
 use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\ConversationResource; // Import ConversationResource 
 
+use App\Models\Conversation; // Import Conversation model
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -44,6 +46,7 @@ class AdminPanelProvider extends PanelProvider
                 CategoryResource::class,
                 ProductResource::class,
                 PesananResource::class,
+                ConversationResource::class, // Tambahkan ConversationResource
             ])
             ->middleware([
                 EncryptCookies::class,
