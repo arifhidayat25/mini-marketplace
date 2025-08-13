@@ -136,6 +136,9 @@
                                 <x-dropdown-link href="{{ route('akun.dashboard') }}">
                                      {{ __('Dashboard Saya') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link href="{{ route('akun.wishlist') }}">
+                                     {{ __('Wishlist Saya') }}
+                                </x-dropdown-link>
 
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf
@@ -200,6 +203,10 @@
                     
                     <x-responsive-nav-link href="{{ route('akun.dashboard') }}" :active="request()->routeIs('akun.dashboard')">
                         {{ __('Dashboard Saya') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link href="{{ route('akun.wishlist') }}" :active="request()->routeIs('akun.wishlist')">
+                        {{ __('Wishlist Saya') }}
                     </x-responsive-nav-link>
 
 
