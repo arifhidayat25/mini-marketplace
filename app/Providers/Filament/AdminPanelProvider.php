@@ -5,11 +5,12 @@ namespace App\Providers\Filament;
 // IMPORT SEMUA RESOURCE ANDA
 use App\Filament\Resources\BannerResource;
 use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\ConversationResource;
 use App\Filament\Resources\PesananResource;
 use App\Filament\Resources\ProductResource;
-use App\Filament\Resources\ConversationResource; // Import ConversationResource 
-
-use App\Models\Conversation; // Import Conversation model
+// IMPORT WIDGET BARU ANDA
+use App\Filament\Widgets\SalesStatsWidget;
+use App\Filament\Widgets\StatsOverviewWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -37,16 +38,19 @@ class AdminPanelProvider extends PanelProvider
             ->colors(['primary' => Color::Amber])
             ->pages([Pages\Dashboard::class])
             ->widgets([
+                // DAFTARKAN SEMUA WIDGET DI SINI
+                StatsOverviewWidget::class,
+                SalesStatsWidget::class,
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
-            // DAFTARKAN RESOURCE SECARA MANUAL DI SINI
+            // DAFTARKAN SEMUA RESOURCE DI SINI
             ->resources([
                 BannerResource::class,
                 CategoryResource::class,
                 ProductResource::class,
                 PesananResource::class,
-                ConversationResource::class, // Tambahkan ConversationResource
+                ConversationResource::class,
             ])
             ->middleware([
                 EncryptCookies::class,

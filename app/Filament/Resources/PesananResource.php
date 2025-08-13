@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources;
 
-// 1. PASTIKAN USE STATEMENTS INI BENAR DAN LENGKAP
 use App\Filament\Resources\PesananResource\Pages;
+// Import Relation Manager
 use App\Filament\Resources\PesananResource\RelationManagers;
-use App\Models\Pesanan; // <-- INI YANG PALING PENTING
+use App\Models\Pesanan;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,7 +19,6 @@ use Filament\Tables\Columns\BadgeColumn;
 
 class PesananResource extends Resource
 {
-    // 2. PASTIKAN MODEL MENUNJUK KE KELAS YANG BENAR
     protected static ?string $model = Pesanan::class;
 
     protected static ?string $navigationLabel = 'Pesanan';
@@ -70,8 +69,10 @@ class PesananResource extends Resource
 
     public static function getRelations(): array
     {
-        // Relation manager akan kita perbaiki setelah ini
-        return [];
+        // AKTIFKAN RELATION MANAGER DI SINI
+        return [
+            RelationManagers\OrderItemsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
@@ -79,6 +80,8 @@ class PesananResource extends Resource
         return [
             'index' => Pages\ListPesanans::route('/'),
             'create' => Pages\CreatePesanan::route('/create'),
+            // Tambahkan halaman view untuk melihat detail pesanan
+            'view' => Pages\ViewPesanan::route('/{record}'),
             'edit' => Pages\EditPesanan::route('/{record}/edit'),
         ];
     }
