@@ -89,6 +89,18 @@
                     </div>
                     <div class="flex items-center space-x-4">
                         <p class="font-bold text-lg">Rp{{ number_format($item->quantity * $item->price, 0, ',', '.') }}</p>
+
+                        {{-- Logika Tombol Ulasan --}}
+                        @if($order->status == 'completed')
+                            @if($item->review)
+                                <span class="text-sm text-green-600 px-4 py-2">Sudah diulas</span>
+                            @else
+                                <button wire:click="openReviewModal({{ $item->id }})" class="text-sm text-indigo-600 hover:underline px-4 py-2">
+                                    Beri Ulasan
+                                </button>
+                            @endif
+                        @endif
+
                         <button wire:click="buyAgain({{ $item->product->id }})" class="px-4 py-2 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg hover:bg-indigo-200">
                             Beli Lagi
                         </button>
@@ -137,12 +149,12 @@
                         {{ $order->phone }}
                     </address>
                 </div>
-                 @if($order->status == 'completed') {{-- Asumsi: status 'dikirim' adalah 'completed' --}}
+                 @if($order->status == 'completed')
                     <div>
                         <h3 class="font-semibold text-gray-700">Kurir & Resi</h3>
-                        <p class="text-gray-600">JNE Express</p> {{-- Ganti dengan data asli --}}
+                        <p class="text-gray-600">JNE Express</p>
                         <div class="flex justify-between items-center mt-1">
-                            <p class="text-gray-600 font-mono bg-gray-100 px-2 py-1 rounded">CGK1234567890</p> {{-- Ganti dengan data asli --}}
+                            <p class="text-gray-600 font-mono bg-gray-100 px-2 py-1 rounded">CGK1234567890</p>
                             <button class="text-sm text-indigo-600 hover:underline">Salin</button>
                         </div>
                         <button class="mt-4 w-full px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700">Lacak Pengiriman</button>
@@ -151,4 +163,43 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal untuk Memberi Ulasan --}}
+    @if($showReviewModal)
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 transition-opacity" x-data="{ show: @entangle('showReviewModal') }" x-show="show" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+        <div class="bg-white rounded-lg p-8 m-4 max-w-md w-full transform transition-all" @click.away="show = false" x-show="show" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+            <h2 class="text-2xl font-bold mb-4">Beri Ulasan untuk</h2>
+            @if($selectedOrderItem)
+            <p class="font-semibold text-gray-700 mb-6">{{ $selectedOrderItem->product->name }}</p>
+            
+            <form wire:submit.prevent="submitReview">
+                {{-- Rating Bintang --}}
+                <div class="mb-4">
+                    <label class="block font-semibold mb-2">Rating Anda</label>
+                    <div class="flex items-center space-x-1">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <svg wire:click="$set('rating', {{ $i }})" class="w-8 h-8 cursor-pointer {{ $rating >= $i ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        @endfor
+                    </div>
+                    @error('rating') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                
+                {{-- Komentar --}}
+                <div class="mb-6">
+                    <label for="comment" class="block font-semibold mb-2">Komentar (Opsional)</label>
+                    <textarea wire:model="comment" id="comment" rows="4" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                    @error('comment') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                {{-- Tombol Aksi --}}
+                <div class="flex justify-end space-x-4">
+                    <button type="button" wire:click="$set('showReviewModal', false)" class="px-4 py-2 bg-gray-200 rounded-lg font-semibold hover:bg-gray-300">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">Kirim Ulasan</button>
+                </div>
+            </form>
+            @endif
+        </div>
+    </div>
+    @endif
+
 </div>

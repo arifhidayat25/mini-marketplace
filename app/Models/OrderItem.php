@@ -18,4 +18,8 @@ public function pesanan()
 {
     return $this->belongsTo(Pesanan::class, 'order_id');
 }
+public function review()
+{
+    return $this->hasOne(Review::class);
+}
 }

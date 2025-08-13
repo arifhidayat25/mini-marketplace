@@ -11,6 +11,7 @@ use App\Livewire\ManageUserAddresses;
 use App\Livewire\CategoryPage;
 use App\Livewire\SearchPage; 
 use App\Livewire\SearchBar;
+use App\Livewire\WishlistPage;
 
 
 /*
@@ -50,4 +51,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/akun/dashboard', UserDashboard::class)->name('akun.dashboard');
     Route::get('/akun/pesanan/{order}', UserOrderDetailPage::class)->name('akun.order.detail');
     Route::get('/akun/alamat', ManageUserAddresses::class)->name('akun.alamat');
+    
+    Route::get('/akun/wishlist', WishlistPage::class)->name('akun.wishlist');
 });
