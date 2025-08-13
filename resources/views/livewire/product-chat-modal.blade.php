@@ -5,13 +5,26 @@
         class="fixed bottom-0 right-0 sm:bottom-4 sm:right-4 w-full sm:w-96 bg-white rounded-t-lg sm:rounded-lg shadow-2xl border border-gray-200 flex flex-col z-50"
         style="height: 70vh; max-height: 500px;">
 
-        <div class="p-4 border-b bg-gray-50 rounded-t-lg flex justify-between items-center">
-            <div>
-                <h3 class="font-semibold text-lg text-gray-800">Tanya tentang produk</h3>
-                <p class="text-sm text-gray-500 truncate">{{ $product->name ?? '' }}</p>
-            </div>
-            <button @click="$wire.closeModal()" class="text-gray-400 hover:text-gray-600">&times;</button>
+        <div class="p-4 border-b bg-gray-50 rounded-t-lg">
+    <div class="flex justify-between items-start mb-3">
+        <div>
+            <h3 class="font-semibold text-lg text-gray-800">Tanya tentang produk</h3>
+            <p class="text-sm text-gray-500 truncate">{{ $product->name ?? '' }}</p>
         </div>
+        <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none">&times;</button>
+    </div>
+    
+    @if($product)
+    <div class="flex items-center space-x-2">
+        <a href="{{ route('product.detail', $product) }}" class="flex-1 text-center px-3 py-2 text-xs font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50">
+            Lihat Detail
+        </a>
+        <button wire:click="addToCart" class="flex-1 text-center px-3 py-2 text-xs font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+            + Keranjang
+        </button>
+    </div>
+    @endif
+</div>
 
         <div class="flex-1 p-4 overflow-y-auto">
             @if($messages)

@@ -88,7 +88,6 @@
                     @endif
                 </div>
             </div>
-                <livewire:product-chat-modal />
 
         </div>
         
