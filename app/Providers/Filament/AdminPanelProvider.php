@@ -9,6 +9,7 @@ use App\Filament\Resources\ConversationResource;
 use App\Filament\Resources\PesananResource;
 use App\Filament\Resources\ProductResource;
 // IMPORT WIDGET BARU ANDA
+use App\Filament\Widgets\ProductsSoldWidget;
 use App\Filament\Widgets\SalesStatsWidget;
 use App\Filament\Widgets\StatsOverviewWidget;
 use Filament\Http\Middleware\Authenticate;
@@ -41,6 +42,7 @@ class AdminPanelProvider extends PanelProvider
                 // DAFTARKAN SEMUA WIDGET DI SINI
                 StatsOverviewWidget::class,
                 SalesStatsWidget::class,
+                ProductsSoldWidget::class,
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
