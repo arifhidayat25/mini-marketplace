@@ -52,7 +52,7 @@
 
                     <div class="ms-3 relative">
                     <livewire:chat-inbox />
-                </div>
+                    </div>
 
                     <div class="ms-3 relative">
                         <livewire:notification-indicator />
